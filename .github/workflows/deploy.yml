@@ -38,7 +38,7 @@ jobs:
     - name: Deploy CloudFormation stack
       run: |
         aws cloudformation deploy \
-          --template-file ../cloudformation.yml \
+          --template-file cloudformation.yml \
           --stack-name daily-blend \
           --capabilities CAPABILITY_IAM \
           --parameter-overrides LambdaFunctionS3Bucket=${{ secrets.S3_ARTEFACTS_BUCKET }} LambdaFunctionS3Key=feed_processor_lambda.zip \
