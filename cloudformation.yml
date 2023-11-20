@@ -20,9 +20,6 @@ Resources:
       MemorySize: 256
       Timeout: 60
       Role: !GetAtt LambdaExecutionRole.Arn
-      Environment:
-        Variables:
-          DB_SECRET: !Ref PlanetScaleDBSecret
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -48,7 +45,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - secretsmanager:GetSecretValue
-                Resource: !Ref PlanetScaleDBSecret
+                Resource: 'arn:aws:secretsmanager:*:*:secret:PlanetScaleDBSecret-*'
 
 Outputs:
   LambdaFunctionName:
