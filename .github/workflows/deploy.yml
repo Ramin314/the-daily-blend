@@ -1,0 +1,49 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Lambda dependencies and package Lambda
+      run: |
+        cd lambda/feed_processor
+        pip install -r requirements.txt -t ./package
+        cp feed_processor.py ./package/
+        cd package
+        zip -r ../feed_processor_lambda.zip .
+      working-directory: ${{ github.workspace }}
+
+    - name: Upload Lambda package to S3
+      run: |
+        aws s3 cp lambda/feed_processor/feed_processor_lambda.zip s3://${{ secrets.S3_ARTEFACTS_BUCKET }}/feed_processor_lambda.zip
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: eu-west-2
+
+    - name: Deploy CloudFormation stack
+      run: |
+        aws cloudformation deploy \
+          --template-file ../cloudformation.yml \
+          --stack-name daily-blend \
+          --capabilities CAPABILITY_IAM \
+          --parameter-overrides LambdaFunctionS3Bucket=${{ secrets.S3_ARTEFACTS_BUCKET }} LambdaFunctionS3Key=feed_processor_lambda.zip \
+          --no-fail-on-empty-changeset
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: eu-west-2
