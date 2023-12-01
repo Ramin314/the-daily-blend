@@ -12,22 +12,12 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-      - DJANGO_DEBUG=True
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_NAME=mydb
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
+    env_file: .env
 
   db:
     image: mysql:8
     container_name: daily_blend_db
-    environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=mydb
-      - MYSQL_USER=myuser
-      - MYSQL_PASSWORD=mypassword
+    env_file: .env
 
   redis:
     image: redis:latest
@@ -41,8 +31,7 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-      - DJANGO_SETTINGS_MODULE=project.settings
+    env_file: .env
     command: celery -A project worker --loglevel=info
 
   celery_beat:
@@ -53,6 +42,5 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-      - DJANGO_SETTINGS_MODULE=project.settings
+    env_file: .env
     command: celery -A project beat --loglevel=info
