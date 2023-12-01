@@ -9,15 +9,27 @@ services:
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
-    depends_on:
-      - db
-      - redis
     env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   db:
     image: mysql:8
     container_name: daily_blend_db
     env_file: .env
+    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      interval: 5s
+      retries: 6
 
   redis:
     image: redis:latest
@@ -42,5 +54,5 @@ services:
     depends_on:
       - db
       - redis
-    env_file: .env
     command: celery -A project beat --loglevel=info
+    env_file: .env
