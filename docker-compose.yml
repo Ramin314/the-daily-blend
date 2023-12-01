@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: daily_blend_web
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DJANGO_DEBUG=True
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=mydb
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+
+  db:
+    image: mysql:8
+    container_name: daily_blend_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+
+  redis:
+    image: redis:latest
+    container_name: daily_blend_redis
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: project_celery_worker
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=project.settings
+    command: celery -A project worker --loglevel=info
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: project_celery_beat
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=project.settings
+    command: celery -A project beat --loglevel=info
