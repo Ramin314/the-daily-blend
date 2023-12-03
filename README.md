@@ -4,4 +4,4 @@ A personalised newspaper with offline functionality
 
 ## Local Development
 
-Run `docker-compose up` and navigate to localhost:8000
+Run `docker-compose up` and navigate to `localhost:8000` to view the app.
