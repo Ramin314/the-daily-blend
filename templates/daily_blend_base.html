@@ -1,4 +1,6 @@
 <title>{% block title %}{% endblock %} | The Daily Blend</title>
+{% if request.user.email %}
 <a href="{% url 'account_logout' %}">Logout</a>
+{% endif %}
 {% block content %}
 {% endblock %}

@@ -3,5 +3,9 @@
     Home
 {% endblock %}
 {% block content %}
-    Welcome to The Daily Blend, {{request.user}}!
+    {% if request.user.email %}
+        Welcome to The Daily Blend, {{request.user}}!
+    {% else %}
+        Login to view this page
+    {% endif %}
 {% endblock %}
