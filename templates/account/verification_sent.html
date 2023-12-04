@@ -1,0 +1,10 @@
+{% extends 'daily_blend_base.html' %}
+{% load i18n %}
+{% load allauth %}
+{% block title %}
+    {% trans "Email Verification Sent" %}
+{% endblock %}
+{% block content %}
+    <h1>Verify Your Email Address</h1>
+    We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.
+{% endblock content %}
