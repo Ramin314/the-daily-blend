@@ -1,3 +1,4 @@
 celery[redis]==5.3.6
 django==4.2.7
+django-allauth==0.58.2
 mysqlclient==2.2.0

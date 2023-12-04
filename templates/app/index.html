@@ -1,0 +1,11 @@
+{% extends 'daily_blend_base.html' %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    {% if request.user.email %}
+        Welcome to The Daily Blend, {{request.user}}!
+    {% else %}
+        Login to view this page
+    {% endif %}
+{% endblock %}
