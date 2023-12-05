@@ -20,6 +20,14 @@ services:
     volumes:
       - .:/app
 
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - .:/frontend
+    command: npm run watch
+
   db:
     image: mysql:8
     container_name: daily_blend_db
