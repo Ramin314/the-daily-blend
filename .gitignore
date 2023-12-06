@@ -2,4 +2,4 @@ mysql-data/
 node_modules/
 qdrant-storage/
 __pycache__/
-*/static/css/output.css
+static/css/output.css
