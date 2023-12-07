@@ -1,0 +1,21 @@
+{
+  "name": "the-daily-blend",
+  "version": "1.0.0",
+  "description": "A personalised newspaper with offline functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss build static/css/styles.css -o static/css/output.css",
+    "watch": "nodemon -e css,html,js --watch static/css --watch templates --exec npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "alpinejs": "^3.13.3",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "preline": "^2.0.2",
+    "tailwindcss": "^3.3.6"
+  }
+}
