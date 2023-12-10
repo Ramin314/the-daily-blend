@@ -16,17 +16,14 @@ def index(request):
 def feeds(request):
     search_query = request.GET.get('search', '')
 
-    # Fetching feeds with search functionality
     feeds = Feed.objects.filter(
         Q(title__icontains=search_query) | 
         Q(description__icontains=search_query) | 
         Q(url__icontains=search_query)
-    ).order_by('-created_at')  # Ordering by creation date
+    ).order_by('-created_at')
 
-    # Pagination
-    paginator = Paginator(feeds, 10)  # Show 10 feeds per page
+    paginator = Paginator(feeds, 10)
     page_number = request.GET.get('page')
-    print('hey there', page_number)
     page_obj = paginator.get_page(page_number)
 
     if request.method == 'POST':
@@ -61,8 +58,5 @@ def feeds(request):
 
 
 def feed(request, feed_id):
-    # Retrieve the feed object by ID or return 404 if not found
     feed = get_object_or_404(Feed, pk=feed_id)
-
-    # Pass the feed object to the template
     return render(request, 'app/feed.html', {'feed': feed})
