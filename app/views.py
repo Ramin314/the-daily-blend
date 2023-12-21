@@ -7,6 +7,7 @@ import feedparser
 
 from .forms import FeedForm
 from .models import Feed, Topic
+from .tasks import parse_rss_feed
 
 
 def index(request):
@@ -41,6 +42,8 @@ def feeds(request):
                     created_by=request.user,
                 )
                 feed.save()
+                parse_rss_feed.delay(feed_url)
+
                 messages.success(request, 'Feed added successfully!')
             except Exception as e:
                 messages.error(request, f'Error adding feed: {e}')
