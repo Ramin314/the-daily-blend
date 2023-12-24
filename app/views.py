@@ -48,7 +48,7 @@ def feeds(request):
 
                 messages.success(request, 'Feed added successfully!')
             except Exception as e:
-                messages.error(request, f'Error adding feed: {e}')
+                messages.error(request, f'Error adding feed. Please check the URL provided is a valid RSS feed.')
 
             return redirect('feeds')
     else:
