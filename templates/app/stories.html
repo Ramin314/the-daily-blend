@@ -1,0 +1,65 @@
+{% extends 'daily_blend_base.html' %}
+{% block title %} Stories {% endblock %}
+{% block content %}
+<main id="content" role="main" class="w-full">
+    <div class="w-full mx-auto min-h-screen bg-white px-4 sm:px-6 lg:px-8">
+      <header>
+        <h1 class="mb-4 block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white">News Stories</h1>
+
+        <form method="get">
+        <div>
+            <div class="py-3 px-4">
+              <div class="relative max-w-xs">
+                <label for="hs-table-search" class="sr-only">Search</label>
+                <input type="text" name="search" value="{{ search_query }}" class="rounded-full py-2 px-3 ps-9 block w-full border border-gray-200 shadow-sm text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Search for news stories">
+                <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                  <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+              </div>
+            </div>
+        </div>
+        </form>
+
+        <div class="flex flex-col">
+            <div class="-m-1.5 overflow-x-auto">
+              <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="overflow-hidden">
+                  <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for story in page_obj %}
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {{ story.thumnail_url }}
+                            <a href="{% url 'story' story_id=story.id %}">
+                            {{ story.title }}
+                            </a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <nav class="flex items-center gap-x-1 justify-center mt-4">
+            <a {% if page_obj.has_previous %} href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" {% endif %} type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+            <svg class="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <span aria-hidden="true" class="sr-only">Previous</span>
+            </a>
+            <div class="flex items-center gap-x-1">
+            <span class="min-h-[38px] min-w-[38px] flex justify-center items-center border border-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-white dark:focus:bg-white/10">{{ page_obj.number }}</span>
+            <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-gray-500">of</span>
+            <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-gray-500">{{ page_obj.paginator.num_pages }}</span>
+            </div>
+            <a {% if page_obj.has_next %} href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" {% endif %} type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+            <span aria-hidden="true" class="sr-only">Next</span>
+            <svg class="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+        </nav>        
+      </header>
+    </div>
+  </main>
+
+{% endblock %}

@@ -9,7 +9,64 @@
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
 </head>
-
+<div>
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-teal-50 border-t-2 border-teal-500 p-4 dark:bg-teal-800/30" role="alert">
+                <div class="flex">
+                <div class="flex-shrink-0">
+                    <span class="inline-flex justify-center items-center w-8 h-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                    <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    </span>
+                </div>
+                <div class="ms-3">
+                    <h3 class="text-gray-800 font-semibold dark:text-white">
+                    Success!
+                    </h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-400">
+                    {{ message }}
+                    </p>
+                </div>
+                <div class="ps-3 ms-auto">
+                    <div class="-mx-1.5 -my-1.5">
+                      <button type="button" class="inline-flex bg-teal-50 rounded-lg p-1.5 text-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-50 focus:ring-teal-600" data-hs-remove-element="#dismiss-alert">
+                        <span class="sr-only">Dismiss</span>
+                        <svg class="flex-shrink-0 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border-s-4 border-red-500 p-4 dark:bg-red-800/30" role="alert">
+                <div class="flex">
+                <div class="flex-shrink-0">
+                    <span class="inline-flex justify-center items-center w-8 h-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 dark:border-red-900 dark:bg-red-800 dark:text-red-400">
+                    <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </span>
+                </div>
+                <div class="ms-3">
+                    <h3 class="text-gray-800 font-semibold dark:text-white">
+                        Error!
+                    </h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-400">
+                        {{ message }}
+                    </p>
+                </div>
+                <div class="ps-3 ms-auto">
+                    <div class="-mx-1.5 -my-1.5">
+                      <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
+                        <span class="sr-only">Dismiss</span>
+                        <svg class="flex-shrink-0 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                      </button>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
 <header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-4">
     <nav class="max-w-[85rem] w-full mx-auto px-4 md:flex md:items-center md:justify-between" aria-label="Global">
         <div class="flex items-center justify-evenly">
@@ -27,10 +84,10 @@
         <div id="navbar-image-and-text-2" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block">
         <div class="flex flex-col gap-5 mt-5 md:flex-row md:items-center md:justify-end md:mt-0 md:ps-5">
             {% if request.user.email %}
-            <a class="font-medium text-emerald-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#" aria-current="page">Newspaper</a>
-            <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Topics</a>
-            <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Feeds</a>
-            <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Stories</a>
+            <a class="font-medium text-gray-600 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#" aria-current="page">Newspaper</a>
+            <a class="font-medium {% if '/topics/' in request.path %} text-emerald-500 {% else %} text-gray-600 {% endif %} hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'topics' %}">Topics</a>
+            <a class="font-medium {% if '/feeds/' in request.path %} text-emerald-500 {% else %} text-gray-600 {% endif %} hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'feeds' %}">Feeds</a>
+            <a class="font-medium {% if '/stories/' in request.path %} text-emerald-500 {% else %} text-gray-600 {% endif %} hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'stories' %}">Stories</a>
             {% endif %}
             <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">About</a>
             <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Shop</a>
@@ -59,7 +116,7 @@
     </nav>
 </header>
 
-<section class="relative w-full h-full px-8 text-gray-700 body-font">
+<section class="relative w-full min-h-full px-8 text-gray-700 body-font">
     <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
         {% block content %}
         {% endblock %}
